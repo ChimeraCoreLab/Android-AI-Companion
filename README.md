@@ -46,7 +46,7 @@ If you wish to build the app from the source code:
 
 1.  **Clone the Repository:**
     ```bash
-    git clone https://github.com/Bas616/Android-AI-Companion.git
+    git clone https://github.com/ChimeraCoreLab/Android-AI-Companion.git
     cd Android-AI-Companion
     ```
 
