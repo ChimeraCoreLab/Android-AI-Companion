@@ -1,0 +1,125 @@
+{
+  "allFiles": [
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/AI Companion/app/src/main/java/com/example/aicompanion/MainActivity.java",
+      "selection": {
+        "end": {
+          "column": 1,
+          "index": 1421,
+          "line": 47
+        },
+        "start": {
+          "column": 1,
+          "index": 1421,
+          "line": 47
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/AI Companion/app/src/main/res/layout/activity_main.xml",
+      "selection": {
+        "end": {
+          "column": 52,
+          "index": 738,
+          "line": 17
+        },
+        "start": {
+          "column": 52,
+          "index": 738,
+          "line": 17
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/AI Companion/app/src/main/AndroidManifest.xml",
+      "selection": {
+        "end": {
+          "column": 39,
+          "index": 245,
+          "line": 7
+        },
+        "start": {
+          "column": 39,
+          "index": 245,
+          "line": 7
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/AI Companion/app/src/main/res/values/colors.xml",
+      "selection": {
+        "end": {
+          "column": 12,
+          "index": 168,
+          "line": 4
+        },
+        "start": {
+          "column": 12,
+          "index": 168,
+          "line": 4
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/AI Companion/app/src/main/res/values/strings.xml",
+      "selection": {
+        "end": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        },
+        "start": {
+          "column": 0,
+          "index": 0,
+          "line": 0
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/AI Companion/app/src/main/res/values/themes.xml",
+      "selection": {
+        "end": {
+          "column": 12,
+          "index": 299,
+          "line": 6
+        },
+        "start": {
+          "column": 12,
+          "index": 299,
+          "line": 6
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/AI Companion/app/src/main/res/values-night/colors.xml",
+      "selection": {
+        "end": {
+          "column": 12,
+          "index": 168,
+          "line": 4
+        },
+        "start": {
+          "column": 12,
+          "index": 168,
+          "line": 4
+        }
+      }
+    },
+    {
+      "file": "/storage/emulated/0/AndroidIDEProjects/AI Companion/app/src/main/res/values-night/themes.xml",
+      "selection": {
+        "end": {
+          "column": 12,
+          "index": 299,
+          "line": 6
+        },
+        "start": {
+          "column": 12,
+          "index": 299,
+          "line": 6
+        }
+      }
+    }
+  ],
+  "selectedFile": "/storage/emulated/0/AndroidIDEProjects/AI Companion/app/src/main/res/values-night/themes.xml"
+}

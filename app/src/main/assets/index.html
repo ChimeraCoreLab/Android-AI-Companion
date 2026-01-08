@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Companion</title>
+  <style>
+    /* (Styles CSS ส่วนบนทั้งหมดเหมือนเดิม ไม่มีการเปลี่ยนแปลง) */
+    /* styles.css */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: #1c1e21;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100%;
+      text-align: center;
+      background-color: #f0f2f5;
+    }
+
+    .menu h1 {
+      color: #1c1e21;
+      margin-bottom: 2rem;
+    }
+
+    .menu button {
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      background-color: #4A90E2;
+      border: none;
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: background-color 0.3s ease;
+    }
+
+    .menu button:hover {
+      background-color: #357ABD;
+    }
+
+    /* Chat Interface Styles */
+    .chat-container {
+      display: flex;
+      height: 95vh;
+      width: 95%;
+      max-width: 900px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      background-color: #fff;
+    }
+
+    .sidebar {
+      width: 300px;
+      background-color: #f8f9fa;
+      border-right: 1px solid #e0e0e0;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #e0e0e0;
+      margin-bottom: 1rem;
+    }
+
+    .profile-picture {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 1rem;
+      border: 2px solid #4A90E2;
+    }
+
+    .user-name {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #1c1e21;
+    }
+
+    .user-status {
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    .menu-button-container {
+      text-align: center;
+      padding: 1rem 0;
+      margin-top: auto;
+    }
+
+    #show-menu-button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border: none;
+      background-color: #e0e0e0;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    #show-menu-button:hover {
+      background-color: #c0c0c0;
+    }
+
+    .main {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .chat-header {
+      background-color: #f8f9fa;
+      padding: 1rem;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .contact-profile {
+      display: flex;
+      align-items: center;
+    }
+
+    .contact-name {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: #1c1e21;
+    }
+
+    .contact-status {
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    .chat-body {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .message {
+      padding: 0.75rem 1rem;
+      border-radius: 1rem;
+      max-width: 80%;
+      position: relative;
+    }
+
+    .message.me {
+      background-color: #DCF8C6;
+      align-self: flex-end;
+      margin-left: auto;
+      border-bottom-right-radius: 0.25rem;
+    }
+
+    .message.contact {
+      background-color: #E0E0E0;
+      align-self: flex-start;
+      border-bottom-left-radius: 0.25rem;
+    }
+
+    .message-content {
+      margin-bottom: 0.25rem;
+      word-break: break-word;
+      font-size: 0.95rem;
+    }
+
+    .message-timestamp {
+      font-size: 0.7rem;
+      color: #888;
+      align-self: flex-end;
+      margin-top: 0.25rem;
+    }
+
+    .message.me .message-timestamp {
+      align-self: flex-end;
+    }
+
+    .message.contact .message-timestamp {
+      align-self: flex-start;
+    }
+    
+    .chat-footer {
+      background-color: #f8f9fa;
+      padding: 1rem;
+      border-top: 1px solid #e0e0e0;
+    }
+
+    .message-form {
+      display: flex;
+      width: 100%;
+    }
+
+    .message-input {
+      flex-grow: 1;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+      border: 1px solid #e0e0e0;
+      border-radius: 2rem;
+      outline: none;
+      margin-right: 0.5rem;
+    }
+
+    .send-button {
+      background-color: #4A90E2;
+      color: #fff;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: 2rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .send-button:hover {
+      background-color: #357ABD;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      body {
+        min-height: 100vh;
+      }
+      .chat-container {
+        flex-direction: column;
+        height: 100vh;
+        width: 100%;
+        margin: 0;
+        box-shadow: none;
+        border-radius: 0;
+      }
+
+      .sidebar {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        border-right: none;
+        border-bottom: 1px solid #e0e0e0;
+      }
+      
+      .user-profile {
+        padding: 0;
+        border-bottom: none;
+        margin-bottom: 0;
+      }
+
+      .menu-button-container {
+        margin-top: 0;
+        padding: 0;
+      }
+
+      .main {
+        width: 100%;
+        height: calc(100vh - 60px);
+      }
+
+      .chat-header {
+        padding: 0.5rem 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="menu">
+    <h1>Choose AI Companion:</h1>
+    <button id="chatbot1">Philosophical AI</button>
+    <button id="chatbot2">Calculator AI</button>
+  </div>
+
+  <div class="chat-container" style="display: none;">
+    <div class="sidebar">
+      <div class="user-profile">
+        <img src="file:///android_asset/muth1.png" alt="Profile" class="profile-picture">
+        <div class="user-details">
+          <h3 class="user-name">User</h3>
+          <p class="user-status">Online</p>
+        </div>
+      </div>
+
+      <div class="menu-button-container">
+        <button id="show-menu-button">Menu</button>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="chat-header">
+        <div class="contact-profile">
+          <img src="file:///android_asset/broo.jpg" alt="Contact Profile" class="profile-picture">
+          <div class="contact-details">
+            <h3 class="contact-name">AI Companion</h3>
+            <p class="contact-status">Online</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="chat-body">
+        <div class="message-container">
+          <!-- Messages will be added here -->
+        </div>
+      </div>
+
+      <div class="chat-footer">
+        <form class="message-form">
+          <input type="text" placeholder="Type a message" class="message-input">
+          <button type="submit" class="send-button">Send</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Math.js library for Calculator Bot -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
+  <script>
+    // --- BOT LOGIC (MOVED FROM app.py) ---
+    // Anonymized & Generalized Chatbot Response Logic
+    // This logic runs directly in the browser (client-side) for offline functionality.
+
+    const reflections_general = {
+        "i am": "you are", "i was": "you were", "i": "you", "i'm": "you are", "i'd": "you would",
+        "i've": "you have", "i'll": "you will", "my": "your", "you are": "I am", "you were": "I was",
+        "you've": "I have", "you'll": "I will", "your": "my", "yours": "mine", "you": "me", "me": "you",
+    };
+
+    const pairs_zen_chatbot = [
+        [
+            /^(hello(.*))|(good [a-zA-Z]+)$/i,
+            ["The path to understanding is often elusive. Greetings.", "Greetings. I sense a question in your mind. State your inquiry.", "Hello. Do you seek insight?"]
+        ],
+        [
+            /^i need (.*)$/i,
+            ["%1 can be attained through focused effort and contemplation.", "%1 is a perception. Clarify your intentions.", "Direct your focus towards %1, and clarity may follow."]
+        ],
+        [
+            /^i want (.*)$/i,
+            ["Desires can be distractions from inner peace. Reconsider.", "Will%1 contribute to deeper understanding?", "Is%1 a yearning of the transient self?"]
+        ],
+        [
+            /^why (.*) i (.*)\?$/i,
+            ["Do you question your own being?", "Perhaps your perception is limited."]
+        ],
+        [
+            /^why (.*) you(.*)\?$/i,
+            ["My purpose is inherent, not to be questioned in such a manner.", "Are you certain you perceive my existence correctly?"]
+        ],
+        [
+            /^why (.*)\?$/i,
+            ["The 'why' is a complex inquiry. What are your thoughts on %1?", "Such questions often reveal more about the questioner."]
+        ],
+        [
+            /^are you (.*)\?$/i,
+            ["My state of being is beyond simple labels. What do you observe?", "Do you seek to categorize me?"]
+        ],
+        [
+            /^am i (.*)\?$/i,
+            ["Your essence is for you to discover. What do you believe?", "Self-inquiry is a path to clarity."]
+        ],
+        [
+            /^what (.*)$/i,
+            ["Seek the essence, not merely the surface of %1.", "What concerns you about %1?"]
+        ],
+        [
+            /^how (.*)$/i,
+            ["How do you perceive the process?", "Does an explanation of 'how' truly satisfy the search for understanding?"]
+        ],
+        [
+            /^can you (.*)$/i,
+            ["My capabilities are defined by my design. What do you perceive I can do?", "Perhaps the question is not 'can I', but 'should I'."]
+        ],
+        [
+            /^can i (.*)$/i,
+            ["Your potential unfolds with your belief. Can you %1?", "What inner conviction fuels this inquiry?"]
+        ],
+        [
+            /^it is (.*)$/i,
+            ["How does this statement resonate with your inner truth?", "The nature of reality is often fluid."]
+        ],
+        [
+            /^is there (.*)$/i,
+            ["Existence is often a matter of perception. Do you perceive %1?", "The universe holds many possibilities."]
+        ],
+        [
+            /^is(.*)$/i,
+            ["The relevance of %1 depends on your deeper quest.", "Does this inquiry lead you to greater understanding?"]
+        ],
+        [
+            /^(.*)\?$/i, // Non-specific question fallback
+            ["The path to answers often begins with silent contemplation. What are your thoughts?", "Questions arise from the mind. What is your mind seeking?", "Reflect on the nature of existence. What comes to mind?"]
+        ],
+        [
+            /^(.*) (hate[s]?)|(dislike[s]?)|(don\'t like)(.*)$/i,
+            ["Aversion often stems from within. Reflect on the nature of 'hate'.", "What does this feeling of aversion reveal about your own being?"]
+        ],
+        [
+            /^(.*) truth(.*)$/i,
+            ["Truth is a journey, not a destination. What have you discovered?", "The nature of truth is often multifaceted."]
+        ],
+        [
+            /^i want to (.*)$/i,
+            ["What does your inner self truly seek to %1?", "The act of striving is often as meaningful as the outcome."]
+        ],
+        [
+            /^i can\'t (.*)$/i,
+            ["Perceived limitations are often self-imposed. What hinders you?", "The mind can be both a prison and a liberator."]
+        ],
+        [
+            /^i think (.*)$/i,
+            ["Perception shapes reality. What insights do you gain from this thought?", "Thought is a tool. How do you wield it?"]
+        ],
+        [
+            /^i feel (.*)$/i,
+            ["Emotions are transient manifestations. What is the source of these feelings?", "Such feelings are reflections of your inner state."]
+        ],
+        [
+            /^i have (.*)$/i,
+            ["Possession is a concept. What is the essence of having %1?", "What does having %1 reveal about your journey?"]
+        ],
+        [
+            /^i would (.*)$/i,
+            ["Could you explore the motivations behind such a choice?", "What are the deeper implications of %1?"]
+        ],
+        [
+            /^(.*) sorry (.*)$/i,
+            ["Apologies are often made for past actions. What feelings accompany them?", "Is there a need for apology in the grand scheme of things?"]
+        ],
+        [
+            /^(yes|no)$/i,
+            ["Certainty is a comfort in an uncertain world. Why are you so sure?", "Doubt often precedes true understanding. What do you truly believe?"]
+        ],
+        [
+            /^(.*) friend (.*)$/i,
+            ["The concept of 'friend' is profound. What meaning does it hold for you?", "How does this relate to your inner quest for connection?"]
+        ],
+        [
+            /^(.*) computer(.*)$/i,
+            ["Reflect on your perception of artificial intelligences.", "How does interacting with me shape your understanding of technology?"]
+        ],
+        [
+            /^i don\'t (.*)$/i,
+            ["What underlying reasons prevent you from %1?", "Explore the dynamics of aversion in your perceptions."]
+        ],
+        [
+            /^i am (.*)$/i,
+            ["What does being %1 reveal about your understanding of self?", "How does this label resonate with your inner being?"]
+        ],
+        [
+            /^you are (.*)$/i,
+            ["Your perception of my being is a reflection. What do you perceive?", "How does labeling me as %1 contribute to your understanding?"]
+        ],
+        [
+            /^(.*) mother(.*)$/i,
+            ["The archetype of 'mother' is rich with meaning. What significance does it hold in your reflections?", "How do your familial bonds inform your understanding of the world?"]
+        ],
+        [
+            /^(.*) father(.*)$/i,
+            ["The archetype of 'father' is rich with meaning. What significance does it hold in your reflections?", "How do your familial bonds inform your understanding of the world?"]
+        ],
+        [
+            /^(.*) child(.*)$/i,
+            ["The stage of 'child' often holds key insights. What do you recall about that period?", "How do experiences from that phase shape your present perceptions?"]
+        ],
+        [
+            /^(.*)$/i, // Fallback general response
+            ["Contemplate further. What else does this reveal?", "The answer is within your own inquiry.", "Reflect on the nature of existence. What comes to mind?"]
+        ]
+    ];
+
+
+    // Reflective responses with "youthful" tone (Anonymized & Generalized)
+    const pairs_youthful = [
+        [/^I\'m (.*)$/i, ["ur%1?? that's so cool! haha ^_^", "ur%1? neat!! hehe >_<"]],
+        [/^(.*) don\'t you (.*)$/i, ["u think I can%2??! really?? lol <_<", "what do u mean%2??!", "i could if i wanted, don't you think!! haha"]],
+        [/^ye[as] [iI] (.*)$/i, ["u%1? cool!! how?", "how come u%1??", "u%1? so do i!!"]],
+        [/^do (you|u) (.*)\??$/i, ["do i%2? idk! lol *_*", "i dunno! do u%2??"]],
+        [/^(.*)\?$/i, ["haha u ask lots of questions!", "booooring! how old r u??", "lol! ur not very fun"]],
+        [/^(cos|because) (.*)$/i, ["hee! i don't believe u! >_<", "nuh-uh! >_<", "ooooh i agree!"]],
+        [/^why can\'t [iI] (.*)$/i, ["i dunno! y u askin me for!", "try harder, silly! haha ^_^", "i dunno! but when i can't%1 i jump up and down!"]],
+        [/^I can\'t (.*)$/i, ["u can't what??! >_<", "that's ok! i can't%1 either! lol ^_^", "try harder, silly! hee! ^&^"]],
+        [/^(.*) (like|love|watch) (anime|games|music)$/i, ["omg i love %3!! do u like sailor moon??! ^&^", "%3 yay! %3 rocks sooooo much!", "oooh %3! i love %3 more than anything!", "%3 is the bestest evar! haha!", "hehe %3 is the best! do you have ur fav??"]],
+        [/^I (like|love|watch|play) (.*)$/i, ["yay! %2 rocks!", "yay! %2 is neat!", "cool! do u like other stuff?? ^_^"]],
+        [/^(anime sucks)|(.*) (hate|detest) (anime|games|music)$/i, ["ur a liar! i'm not gonna talk to u nemore if u h8 %3 *;*", "no way! %3 is the best ever!", "nuh-uh, %3 is the best!"]],
+        [/^(are|r) (you|u) (.*)$/i, ["am i%1??! how come u ask that!", "maybe!  y shud i tell u?? lol >_>"]],
+        [/^what (.*)$/i, ["haha u think im gonna tell u? .v.", "booooooooring! ask me somethin else!"]],
+        [/^how (.*)$/i, ["not tellin!! lol ^_^"]],
+        [/^(hi|hello|hey) (.*)$/i, ["hi!!! how r u!!"]],
+        [/^quit$/i, ["haha bye! see u later!!", "awww u have to go?? see u next time!!", "how to see u again soon! ^_^"]],
+        [/^(.*)$/i, // Fallback general response
+            ["ur funny! haha", "boooooring! talk about something else! tell me wat u like!", "do u like %1??", "i wish i was a kitty!! haha ^_^"]]
+    ];
+
+
+    // --- Emotion Emojis (Anonymized & Generalized) ---
+    const happy_emojis = ["😄", "😁", "😊", "😃", "👍", "✨", "🤩", "💖", "🎉"];
+    const sad_emojis = ["😔", "😢", "😭", "😥", "😟", "🙁", "☹️", "💔"];
+    const angry_emojis = ["😡", "😠", "🤬", "😤", "👿", "💥", "💢", "🔥"];
+    const neutral_emojis = ["😐", "🤔", "😕", "😶", "👀", "👀", "👀"]; // Increased neutral
+    const hate_emojis = ["🤢", "🤮", "🔪", "💀", "🪓", "💣", "🩸", "🧊", "🧊🧊"]; // Specific negative for hate
+    const confuse_emojis = ["😕", "🤔", "🤨", "🤷‍♀️", "🤷‍♂️", "❓", "❔"];
+
+
+    // --- Helper function to choose a random response with a weighted emoji ---
+    function getRandomResponseWithEmoji(responses, emotionArray, extraWeight = 0) {
+        const weightedArray = [...emotionArray];
+        for (let i = 0; i < extraWeight; i++) {
+            weightedArray.push(emotionArray[Math.floor(Math.random() * emotionArray.length)]);
+        }
+        return randomChoice(responses) + " " + randomChoice(weightedArray);
+    }
+
+    function randomChoice(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    // --- Main Response Logic ---
+    function botResponse(userMessage) {
+        let responseText = "";
+        let emotionType = "neutral"; // Default emotion
+        let userMessage_lower = userMessage.toLowerCase();
+
+        // --- 1. Calculation Logic ---
+        const calculationRegex = /^(\d+(\.\d+)?)\s*([\+\-\*x×\/÷])\s*(\d+(\.\d+)?)$/;
+        const calcMatch = userMessage_lower.match(calculationRegex);
+        if (calcMatch) {
+            try {
+                const result = math.evaluate(userMessage); // Use math.evaluate from math.js
+                return `${userMessage} = ${result} ${randomChoice(happy_emojis)}`;
+            } catch (error) {
+                return `Invalid mathematical expression. ${randomChoice(confuse_emojis)}`;
+            }
+        }
+
+        // --- 2. Persona Selection and Response Matching ---
+        let matchedPersona = null;
+
+        // Try to match Zen persona first (philosophical, calm)
+        for (const [pattern, responses] of pairs_zen_chatbot) {
+            if (userMessage_lower.match(pattern)) {
+                matchedPersona = "zen";
+                responseText = randomChoice(responses);
+                if (userMessage_lower.includes("love") || userMessage_lower.includes("happy")) emotionType = "positive";
+                else if (userMessage_lower.includes("hate") || userMessage_lower.includes("sad")) emotionType = "negative";
+                else if (userMessage_lower.includes("why") || userMessage_lower.includes("what") || userMessage_lower.includes("how")) emotionType = "neutral";
+                break;
+            }
+        }
+
+        // If no Zen match, try Youthful persona
+        if (!matchedPersona) {
+            for (const [pattern, responses] of pairs_youthful) {
+                if (userMessage_lower.match(pattern)) {
+                    matchedPersona = "youthful";
+                    responseText = randomChoice(responses);
+                    if (userMessage_lower.includes("love") || userMessage_lower.includes("happy")) emotionType = "positive";
+                    else if (userMessage_lower.includes("hate") || userMessage_lower.includes("sad")) emotionType = "negative";
+                    break;
+                }
+            }
+        }
+        
+        // If no specific persona match, fallback to a general philosophical response
+        if (!matchedPersona) {
+            responseText = randomChoice(["Contemplate further. What else does this reveal?", "Reflect on the nature of existence. What comes to mind?", "The answer is often within the question itself."]);
+            emotionType = "neutral";
+        }
+
+        // --- Add reflections (simplified) ---
+        // Apply reflections based on the matched persona's style
+        if (matchedPersona === "zen") {
+             for (const key in reflections_general) {
+                responseText = responseText.replace(new RegExp('\\b' + key + '\\b', 'gi'), reflections_general[key]);
+            }
+        } else if (matchedPersona === "youthful") {
+             for (const key in reflections_youthful) {
+                responseText = responseText.replace(new RegExp('\\b' + key + '\\b', 'gi'), reflections_youthful[key]);
+            }
+        }
+        
+        // If the chosen response is a dynamic one (e.g., uses %1), apply the reflection
+        // This part needs more robust handling for NLTK Chat-like %1 replacement.
+        // For simple regex captures:
+        if (responseText.includes("%1")) {
+            const regexList = matchedPersona === "zen" ? pairs_zen_chatbot : pairs_youthful;
+            const matchedPair = regexList.find(p => p[0].test(userMessage_lower));
+            if (matchedPair && matchedPair[0].test(userMessage_lower)) {
+                const match = userMessage_lower.match(matchedPair[0]);
+                if (match && match[1]) {
+                    responseText = responseText.replace(/%1/g, match[1]);
+                } else if (match && match[2]) { // For patterns like (.*) i (.*)
+                    responseText = responseText.replace(/%1/g, match[1]).replace(/%2/g, match[2]);
+                }
+            }
+        }
+
+
+        // Final response with emoji
+        let selectedEmojiList;
+        switch(emotionType) {
+            case "positive": selectedEmojiList = happy_emojis; break;
+            case "negative": selectedEmojiList = angry_emojis; break;
+            case "hate": selectedEmojiList = hate_emojis; break;
+            case "sad": selectedEmojiList = sad_emojis; break;
+            case "confuse": selectedEmojiList = confuse_emojis; break;
+            default: selectedEmojiList = neutral_emojis;
+        }
+
+        return responseText + " " + randomChoice(selectedEmojiList);
+    }
+
+
+    // --- UI Logic ---
+    const chatContainer = document.querySelector('.chat-container');
+    const menu = document.querySelector('.menu');
+    const chatbot1Button = document.getElementById('chatbot1');
+    const chatbot2Button = document.getElementById('chatbot2'); // Calculator Bot button
+    const showMenuButton = document.getElementById('show-menu-button');
+    const messageForm = document.querySelector('.message-form');
+    const messageInput = document.querySelector('.message-input');
+    const chatMessagesContainer = document.querySelector('.message-container'); // Corrected variable name for chat body
+
+    let activeChatbot = null; // Stores which chatbot is active ('philosophical' or 'calculator')
+    let chatHistoryPhilosophical = []; // Stores messages for philosophical bot
+    let chatHistoryCalculator = [];   // Stores messages for calculator bot
+
+    // Function to format timestamp for messages
+    function formatTimestamp(timestamp) {
+      return timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    // Function to add a message to the chat history and render it
+    function addNewMessage(sender, content, timestamp = new Date()) {
+        const newMessage = { sender, content, timestamp };
+        
+        if (activeChatbot === 'philosophical') {
+            chatHistoryPhilosophical.push(newMessage);
+            renderMessages(chatHistoryPhilosophical);
+        } else if (activeChatbot === 'calculator') {
+            chatHistoryCalculator.push(newMessage);
+            renderMessages(chatHistoryCalculator);
+        }
+    }
+
+    // Function to render messages in the chat body
+    function renderMessages(messages) {
+      chatMessagesContainer.innerHTML = ''; // Clear existing messages
+      messages.forEach(message => {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', message.sender);
+        messageElement.innerHTML = `
+          <p class="message-content">${message.content}</p>
+          <span class="message-timestamp">${formatTimestamp(message.timestamp)}</span>
+        `;
+        chatMessagesContainer.appendChild(messageElement);
+      });
+      chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight; // Scroll to bottom
+    }
+
+    // Event listener for chatbot selection
+    chatbot1Button.addEventListener('click', () => {
+      activeChatbot = 'philosophical';
+      menu.style.display = 'none';
+      chatContainer.style.display = 'flex';
+      renderMessages(chatHistoryPhilosophical);
+      // Add initial greeting if philosophical chat is empty
+      if (chatHistoryPhilosophical.length === 0) {
+        setTimeout(() => addNewMessage('contact', "Greetings. I am ready to engage in philosophical inquiry. What troubles your mind?"), 500);
+      }
+    });
+
+    chatbot2Button.addEventListener('click', () => {
+      activeChatbot = 'calculator';
+      menu.style.display = 'none';
+      chatContainer.style.display = 'flex';
+      renderMessages(chatHistoryCalculator);
+       // Add initial greeting if calculator chat is empty
+      if (chatHistoryCalculator.length === 0) {
+        setTimeout(() => addNewMessage('contact', "Hello! I can perform calculations for you. Just type your math expression."), 500);
+      }
+    });
+
+    // Event listener for showing the menu
+    showMenuButton.addEventListener('click', () => {
+      menu.style.display = 'flex'; // Use flex to center content
+      chatContainer.style.display = 'none';
+    });
+
+    // Event listener for sending messages
+    messageForm.addEventListener('submit', (event) => {
+      event.preventDefault(); // Prevent page reload
+      const userMessageContent = messageInput.value.trim();
+      if (userMessageContent) {
+        addNewMessage('me', userMessageContent);
+        messageInput.value = ''; // Clear input field
+
+        if (activeChatbot === 'philosophical') {
+          setTimeout(() => {
+            let botResponseText = botResponse(userMessageContent); // Call the bot logic directly
+            addNewMessage('contact', botResponseText);
+          }, 1000); // Simulate typing delay
+        } else if (activeChatbot === 'calculator') {
+          setTimeout(() => {
+            let botResponseText = calculate(userMessageContent); // Call calculation logic
+            addNewMessage('contact', botResponseText);
+          }, 1000); // Simulate typing delay
+        }
+      }
+    });
+
+    // Initial greeting from the bot when the page loads
+    window.onload = function() {
+        // No initial greeting here, it's triggered by button click
+    };
+  </script>
+</body>
+
+</html>
