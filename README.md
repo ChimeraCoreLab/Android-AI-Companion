@@ -28,7 +28,7 @@ The core inspiration for this project stems from a deep-seated fascination with 
 This section provides instructions for downloading and installing the compiled Android application package (`.apk`).
 
 1.  **Download the APK:**
-    *   Go to the [Releases section of this GitHub repository](https://github.com/Bas616/Android-AI-Companion/releases) (Note: You will need to create a release with your APK in Step 4).
+    *   Go to the [Releases section of this GitHub repository](https://github.com/ChimeraCoreLab/Android-AI-Companion/releases) (Note: You will need to create a release with your APK in Step 4).
     *   Alternatively, you might find the `app-debug.apk` directly in the `app/build/outputs/apk/debug/` directory of the cloned repository if you build it yourself.
 
 2.  **Enable "Install from Unknown Sources":**
